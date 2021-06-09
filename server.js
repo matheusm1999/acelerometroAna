@@ -10,6 +10,14 @@ const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
+	server.get('/', function(req,res){
+		res.sendFile('transmissao.html',{root: __dirname})
+	});
+
+	server.get('/index', function(req,res){
+		res.sendFile('index.html',{root: __dirname})
+	});
+
 const wss = new Server({ server });
 
 let sockets = [];
@@ -29,11 +37,3 @@ let sockets = [];
 	    sockets = sockets.filter(s => s !== socket);
 	  });
 	});
-
-	express.get('/', function(req,res){
-    res.sendFile('transmissao.html',{root: __dirname})
-  });
-
-	express.get('/index', function(req,res){
-    res.sendFile('index.html',{root: __dirname})
-  });
