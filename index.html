@@ -73,8 +73,8 @@ var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
             }
     });
 
-  var webSocket = new WebSocket("ws://fierce-dawn-84309.herokuapp.com");
-  console.log("funcionando");
+  var host =  location.origin.replace(/^http/, 'ws')
+  var webSocket = new WebSocket(host);
   var contador = 0;
 
   webSocket.onopen = function(evento){

@@ -20,8 +20,8 @@
 
 <script type="text/javascript">
   const accelerometer = new Accelerometer({ frequency: 5 });
-  console.log("funcionando");
-  var webSocket = new WebSocket("ws://fierce-dawn-84309.herokuapp.com");
+  var host =  location.origin.replace(/^http/, 'ws')
+  var webSocket = new WebSocket(host);
 
   function dados(event){
       alert("nos dados");
