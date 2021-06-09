@@ -1,58 +1,24 @@
+'use strict';
+
 const express = require('express');
-const server = express();
-//const PORT = process.env.PORT || 3000;
+const { Server } = require('ws');
 
-server.listen(process.env.PORT || 3000,
-	() => console.log("servidor funcionando"));
+const PORT = process.env.PORT || 3000;
+const INDEX = '/index.html';
 
-	const { Server } = require('ws');
-	const ws = new Server({ server });
-	let sockets = [];
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-	ws.on('connection', function(socket) {
-	  // Adiciona cada nova conexão/socket ao array de sockets
-	  sockets.push(socket);
+const wss = new Server({ server });
 
-	  // Envia uma mensagem para todos os sockets quando um dado for recebido
-	  socket.on('message', function(msg) {
-	    console.log(msg);
-	    sockets.forEach(s => s.send(msg));
-	  });
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
+});
 
-	  // Quando a conexão de um socket é fechada, remove o socket do array
-	  socket.on('close', function() {
-	    sockets = sockets.filter(s => s !== socket);
-	  });
-	});
-
-  server.get('/', function(req,res){
-    res.sendFile('transmissao.html',{root: __dirname})
+setInterval(() => {
+  wss.clients.forEach((client) => {
+    client.send(new Date().toTimeString());
   });
-
-	server.get('/index', function(req,res){
-    res.sendFile('index.html',{root: __dirname})
-  });
-
-/*
-app.listen(8123, () =>
-  console.log("Servidor iniciado")
-);
-
-
-*/
-
-  server.get('/', function(req,res){
-    res.sendFile('transmissao.html',{root: __dirname})
-  });
-
-	server.get('/index', function(req,res){
-    res.sendFile('index.html',{root: __dirname})
-  });
-
-/*
-app.listen(8123, () =>
-  console.log("Servidor iniciado")
-);
-
-
-*/
+}, 1000);
