@@ -11,6 +11,7 @@ const server = express();
 server.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
 server.listen(PORT, () => console.log('Servidor Funcionando'));
 
+/*
 server.get('/', function(req,res){
 	res.sendFile('transmissao.html',{root: __dirname})
 });
@@ -18,7 +19,7 @@ server.get('/', function(req,res){
 server.get('/index', function(req,res){
 	res.sendFile('index.html',{root: __dirname})
 });
-
+*/
 const wss = new Server({ server });
 
 let sockets = [];
