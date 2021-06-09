@@ -14,8 +14,7 @@ const server = express()
 	})
 	.get('/index', function(req,res){
 		res.sendFile('index.html',{root: __dirname})
-	})
-);
+	});
 
 const wss = new Server({ server });
 
