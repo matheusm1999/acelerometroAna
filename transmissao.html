@@ -22,6 +22,7 @@
   const accelerometer = new Accelerometer({ frequency: 5 });
   var host =  location.origin.replace(/^http/, 'ws')
   var webSocket = new WebSocket(host);
+  var tempo = 0;
 
   function dados(event){
       alert("nos dados");
