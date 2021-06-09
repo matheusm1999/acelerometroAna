@@ -14,7 +14,7 @@ const wss = new Server({ server });
 
 let sockets = [];
 
-	ws.on('connection', function(socket) {
+	wss.on('connection', function(socket) {
 	  // Adiciona cada nova conexão/socket ao array de sockets
 	  sockets.push(socket);
 
