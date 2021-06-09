@@ -11,10 +11,10 @@ const server = express()
   .listen(PORT, () => console.log(`Listening on ${PORT}`)
 	.get('/', function(req,res){
 		res.sendFile('transmissao.html',{root: __dirname})
-	});
+	})
 	.get('/index', function(req,res){
 		res.sendFile('index.html',{root: __dirname})
-	});
+	})
 );
 const wss = new Server({ server });
 
