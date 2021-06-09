@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>Transmissão em tempo real</title>
+</head>
+<body>
+  <div class ="container-fluid">
+    <canvas id="graficoTempoReal"></canvas>
+</div>
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script type="text/javascript">
+
+var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
+    var chartTempoReal = new Chart(ctxTempoReal, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'X',
+                backgroundColor: 'rgb(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor : [],
+                data: []
+            },{
+              label: 'Y',
+                backgroundColor: 'rgb(0, 99, 132, 0.2)',
+                borderColor: 'rgb(0, 99, 132)',
+                pointBackgroundColor : [],
+                data: []
+            },{
+              label: 'Z',
+                backgroundColor: 'rgb(0, 99, 0, 0.2)',
+                borderColor: 'rgb(0, 99, 0)',
+                pointBackgroundColor : [],
+                data: []
+            }]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Tempo (s)'
+                  }
+                }],
+            yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Aceleração (m/s²)'
+                },
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            },
+            pan: {
+            enabled: true,
+            mode: 'xy'
+          },
+          zoom: {
+          enabled: true,
+          mode: 'xy'
+          }
+            }
+    });
+
+
+  var webSocket = new WebSocket("wss://agile-beach-28060.com/");
+  console.log("funcionando");
+  var contador = 0;
+
+  webSocket.onopen = function(evento){
+      alert("Conexão aberta");
+  };
+
+  webSocket.onmessage = function(evento){
+    //alert("Mensagem recebida");
+    dados = evento.data;
+    console.log("recebi");
+    /*
+    dados = dados.split(",");
+
+    chartTempoReal.data.labels.push(contador);
+    chartTempoReal.data.datasets[0].data.push(dados[0]);
+		chartTempoReal.data.datasets[1].data.push(dados[1]);
+		chartTempoReal.data.datasets[2].data.push(dados[2]);
+
+    contador++;
+		chartTempoReal.update();
+    */
+  };
+
+  webSocket.onclose = function(evento){
+    alert("Conexão fechada");
+  };
+
+  webSocket.onerror = function(evento){
+    alert("Erro");
+  };
+
+</script>

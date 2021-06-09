@@ -1,0 +1,16 @@
+{
+  "name": "trabalho2sd",
+  "version": "2.0.0",
+  "description": "Trabalho 2 SD",
+  "main": "transmissao.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Matheus",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.6"
+  }
+}

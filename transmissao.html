@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>Page Title</title>
+</head>
+<body>
+  <div class="container-fluid" style="padding-top:10px;">
+    <div class="col-sm-6 col-md-6 col-lg-6" style = "text-align:right;">
+        <button class="btn btn-primary" onclick = "coletarDados()" > Iniciar Transmissão </button>
+    </div>
+    <div class= "col-sm-6 col-md-6 col-lg-6" style = "text-align:left;">
+        <button class="btn btn-primary" onclick = "pararTransmissao()"> Parar Transmissão </button>
+    </div>
+  </div>
+</body>
+</html>
+
+<script type="text/javascript">
+  const accelerometer = new Accelerometer({ frequency: 5 });
+  console.log("funcionando");
+  var webSocket = new WebSocket("wss://agile-beach-28060.com/");
+
+  function dados(event){
+      alert("nos dados");
+      let dados = new Array();
+      dados.push(accelerometer.x,accelerometer.y,accelerometer.z,tempo.toFixed(2))
+      webSocket.send(dados);
+
+			tempo = tempo + 0.2;
+
+			webSocket.send(dados);
+		}
+
+  function coletarDados(){
+			var tempo = 0;
+
+			navigator.permissions.query({name:'accelerometer'}).then(function(result) {
+          alert("coletando dados");
+				  if (result.state == 'granted') {
+                alert("coletando dados dois");
+					  if (Accelerometer) {
+               alert("No acelerômetro");
+						   accelerometer.addEventListener("reading", dados);
+						   accelerometer.start();
+						} else {
+              alert("Este dispositivo não acelerômetro");
+						}
+				  }
+			});
+		}
+
+
+  webSocket.onopen = function(evento){
+      alert("Conexão aberta");
+  };
+
+  webSocket.onmessage = function(evento){
+    //alert("Mensagem recebida");
+    console.log("mensagem recebida");
+  };
+
+  webSocket.onclose = function(evento){
+    alert("Conexão fechada");
+  };
+
+  webSocket.onerror = function(evento){
+    alert("Erro");
+  };
+
+  function pararTransmissao(){
+    webSocket.close();
+  }
+
+</script>
