@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 const server = express()
 	.listen(PORT, () => console.log('Servidor Funcionando'));
 
-	app.use('/', function (req, res) {
+	server.use('/', function (req, res) {
 	  res.sendFile('transmissao.html',{root: __dirname})
 	});
 
