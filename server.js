@@ -6,8 +6,8 @@ const { Server } = require('ws');
 const PORT = process.env.PORT || 3000;
 
 const server = express()
-	.use('/', (req,res) => res.sendFile('transmissao.html',{root: __dirname}))
-	.use('/index', (req,res) => res.sendFile('index.html',{root: __dirname}))
+	.use('/', (req,res) => res.sendFile('transmissao.html',{root: __dirname}); next();)
+	.use('/index', (req,res) => res.sendFile('index.html',{root: __dirname}); next();)
 	.listen(PORT, () => console.log('Servidor Funcionando'));
 
 
