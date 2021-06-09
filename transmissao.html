@@ -39,11 +39,8 @@
 			var tempo = 0;
 
 			navigator.permissions.query({name:'accelerometer'}).then(function(result) {
-          alert("coletando dados");
 				  if (result.state == 'granted') {
-                alert("coletando dados dois");
 					  if (Accelerometer) {
-               alert("No acelerômetro");
 						   accelerometer.addEventListener("reading", dados);
 						   accelerometer.start();
 						} else {
@@ -60,7 +57,7 @@
 
   webSocket.onmessage = function(evento){
     //alert("Mensagem recebida");
-    console.log("mensagem recebida");
+    //console.log("mensagem recebida");
   };
 
   webSocket.onclose = function(evento){
