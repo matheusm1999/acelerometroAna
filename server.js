@@ -6,9 +6,11 @@ const { Server } = require('ws');
 const PORT = process.env.PORT || 3000;
 
 const server = express()
+	.use('/', (req,res) => res.sendFile('transmissao.html',{root: __dirname}))
+	.use('/index', (req,res) => res.sendFile('index.html',{root: __dirname}))
 	.listen(PORT, () => console.log('Servidor Funcionando'));
 
-	server.use('/', function (req, res) {
+	.use('/', function (req, res) {
 	  res.sendFile('transmissao.html',{root: __dirname})
 	});
 
