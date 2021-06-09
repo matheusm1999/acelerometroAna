@@ -29,3 +29,11 @@ let sockets = [];
 	    sockets = sockets.filter(s => s !== socket);
 	  });
 	});
+
+	server.get('/', function(req,res){
+    res.sendFile('transmissao.html',{root: __dirname})
+  });
+
+	server.get('/index', function(req,res){
+    res.sendFile('index.html',{root: __dirname})
+  });
