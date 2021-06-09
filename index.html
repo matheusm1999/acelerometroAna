@@ -84,7 +84,6 @@ var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
   webSocket.onmessage = function(evento){
     //alert("Mensagem recebida");
     dados = evento.data;
-    console.log("dados recebidos");
 
     dados = dados.split(",");
 
@@ -95,7 +94,7 @@ var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
 
     contador++;
 		chartTempoReal.update();
-    
+
   };
 
   webSocket.onclose = function(evento){

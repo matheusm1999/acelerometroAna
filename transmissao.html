@@ -25,7 +25,6 @@
   var tempo = 0;
 
   function dados(event){
-      alert("nos dados");
       let dados = new Array();
       dados.push(accelerometer.x,accelerometer.y,accelerometer.z,tempo.toFixed(2))
       webSocket.send(dados);
