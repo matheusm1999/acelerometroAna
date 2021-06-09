@@ -17,8 +17,20 @@ wss.on('connection', (ws) => {
   ws.on('close', () => console.log('Client disconnected'));
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
-  });
-}, 1000);
+let sockets = [];
+
+	ws.on('connection', function(socket) {
+	  // Adiciona cada nova conexão/socket ao array de sockets
+	  sockets.push(socket);
+
+	  // Envia uma mensagem para todos os sockets quando um dado for recebido
+	  socket.on('message', function(msg) {
+	    console.log(msg);
+	    sockets.forEach(s => s.send(msg));
+	  });
+
+	  // Quando a conexão de um socket é fechada, remove o socket do array
+	  socket.on('close', function() {
+	    sockets = sockets.filter(s => s !== socket);
+	  });
+	});
