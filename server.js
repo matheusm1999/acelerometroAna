@@ -10,10 +10,6 @@ const server = express()
 	.use('/index', (req,res) => res.sendFile('index.html',{root: __dirname}))
 	.listen(PORT, () => console.log('Servidor Funcionando'));
 
-	.use('/', function (req, res) {
-	  res.sendFile('transmissao.html',{root: __dirname})
-	});
-
 
 /*
 server.get('/', function(req,res){
