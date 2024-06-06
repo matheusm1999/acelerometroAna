@@ -9,6 +9,7 @@
 <body>
   <div class ="container-fluid">
     <canvas id="graficoTempoReal"></canvas>
+    <button onclick="salvar()">Salvar Movimento</button>
 </div>
 </body>
 </html>
@@ -16,6 +17,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script type="text/javascript">
 
+var dadosAcelerometro = new Array();
+//Cria o gráfico para exibir os dados do acelerômetro em tempo real
 var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
     var chartTempoReal = new Chart(ctxTempoReal, {
         // The type of chart we want to create
@@ -73,19 +76,22 @@ var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
             }
     });
 
+  //Inicia uma conexão com o servidor webSocket
   var host =  location.origin.replace(/^http/, 'ws')
   var webSocket = new WebSocket(host);
   var contador = 0;
 
+  //inicia a conexão com o servidor
   webSocket.onopen = function(evento){
       alert("Conexão aberta");
   };
 
+  //Exibe os dados do acelerômetro no gráfico superior
   webSocket.onmessage = function(evento){
-    //alert("Mensagem recebida");
     dados = evento.data;
 
     dados = dados.split(",");
+    dadosAcelerometro.push(dados);
 
     chartTempoReal.data.labels.push(dados[3]);
     chartTempoReal.data.datasets[0].data.push(dados[0]);
@@ -97,12 +103,34 @@ var ctxTempoReal = document.getElementById('graficoTempoReal').getContext('2d');
 
   };
 
+  //Exibe um alerta quando fecha uma conexão com o servidor webSocket
   webSocket.onclose = function(evento){
     alert("Conexão fechada");
   };
 
+  //Exibe um alerta quando ocorre algum erro relacionado ao Socket
   webSocket.onerror = function(evento){
     alert("Erro");
   };
+
+  function salvar() {
+    let textFile = null;
+    const blob = new Blob([dadosAcelerometro], { type: 'text/plain' });
+
+    // Criar um link para download
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'arquivo.txt';
+
+    // Adicionar o link ao documento
+    document.body.appendChild(a);
+
+    // Clicar no link para iniciar o download
+    a.click();
+
+    // Remover o link do documento
+    document.body.removeChild(a);
+    dadosAcelerometro = new Array();
+  }
 
 </script>

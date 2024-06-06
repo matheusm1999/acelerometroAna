@@ -19,8 +19,10 @@
 </html>
 
 <script type="text/javascript">
-  const accelerometer = new Accelerometer({ frequency: 5 });
+
+  var accelerometer;
   var host =  location.origin.replace(/^http/, 'ws')
+  alert(host);
   var webSocket = new WebSocket(host);
   var tempo = 0;
 
@@ -38,6 +40,7 @@
 			var tempo = 0;
 
 			navigator.permissions.query({name:'accelerometer'}).then(function(result) {
+          accelerometer = new Accelerometer({ frequency: 10 });
 				  if (result.state == 'granted') {
 					  if (Accelerometer) {
 						   accelerometer.addEventListener("reading", dados);
